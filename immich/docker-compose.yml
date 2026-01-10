@@ -1,0 +1,79 @@
+name: immich
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    volumes:
+      - ${UPLOAD_LOCATION}:/data
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - database
+    restart: always
+    # LIMITS START HERE
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0' # Max 2 cores
+          memory: 2048M # Max 2GB RAM
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    volumes:
+      - model-cache:/cache
+    env_file:
+      - .env
+    restart: always
+    # ML is the heaviest. We cap it strictly.
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0' # Max 1 core to prevent overheating
+          memory: 1536M 
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:9
+    healthcheck:
+      test: redis-cli ping || exit 1
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+
+### Keeps machine learning usage at quite hours : 
+# crontab -e
+## Stop ML at 8 AM
+# 0 8 * * * docker stop immich_machine_learning
+## Start ML at 2 AM
+#0 2 * * * docker start immich_machine_learning
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+    environment:
+      POSTGRES_PASSWORD: ${IMMICH_POSTGRES_PASSWORD}
+      POSTGRES_USER: ${IMMICH_POSTGRES_USER}
+      POSTGRES_DB: ${IMMICH_POSTGRES_DB}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    volumes:
+      - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+
+volumes:
+  model-cache:
+
+networks:
+  default:
+    name: homelab_net
+    external: true

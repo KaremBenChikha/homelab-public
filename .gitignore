@@ -1,0 +1,24 @@
+# --- SECRETS (Never commit these!) ---
+.env
+*.env
+*.key
+*.pem
+
+# --- HEAVY DATA & DATABASES ---
+# Ignore all 'data' folders in any subdirectory
+**/data/
+
+# Specific Immich Database folder
+immich/postgres/
+immich/model-cache/
+
+# Tailscale State
+tailscale/state/
+
+# Nginx Proxy Manager Certificates
+nginx-proxy-manager/letsencrypt/
+
+# --- LOGS & JUNK ---
+*.log
+*.sqlite
+.DS_Store

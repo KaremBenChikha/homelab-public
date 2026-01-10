@@ -1,0 +1,35 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    hostname: elitedesk  # Sets the name inside Tailscale Admin Console
+    env_file:
+      - ../.env          # adjust path if your .env is in ~/homelab/.env
+    network_mode: host   # Crucial for Subnet Routing
+    restart: unless-stopped
+    
+    # Official capabilities required for VPN/Routing
+    cap_add:
+      - net_admin
+      - sys_module
+      
+    # Access to the Host Kernel Tun device
+    volumes:
+      - ./state:/var/lib/tailscale   # Persist login state
+      - /dev/net/tun:/dev/net/tun    # Access network device
+      
+    environment:
+      # Map your local .env var to the official image var
+      - TS_AUTHKEY=${TS_AUTH_KEY}
+      
+      # Persistence location
+      - TS_STATE_DIR=/var/lib/tailscale
+      
+      # SUBNET ROUTING: Advertise your physical home network
+      - TS_ROUTES=192.168.1.0/24
+      
+      # Use Kernel networking for better routing performance
+      - TS_USERSPACE=false
+      
+      # Optional: Advertise as an Exit Node (VPN your phone traffic through home)
+      - TS_EXTRA_ARGS=--advertise-exit-node

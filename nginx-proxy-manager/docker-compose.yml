@@ -1,0 +1,20 @@
+services:
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: npm
+    restart: unless-stopped
+    ports:
+      - '80:80'      # HTTP traffic
+      - '443:443'    # HTTPS traffic
+      - '81:81'      # Admin Interface (REQUIRED for setup)
+    environment:
+      DISABLE_IPV6: 'true'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - homelab_net
+
+networks:
+  homelab_net:
+    external: true
