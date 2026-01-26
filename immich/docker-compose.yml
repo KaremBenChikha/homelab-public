@@ -47,7 +47,7 @@ services:
           memory: 256M
 
 
-### Keeps machine learning usage at quite hours : 
+## Keeps machine learning usage at quite hours : 
 # crontab -e
 ## Stop ML at 8 AM
 # 0 8 * * * docker stop immich_machine_learning

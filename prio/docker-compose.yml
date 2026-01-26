@@ -1,0 +1,40 @@
+services:
+  # 1. The Database
+  prio-db:
+    container_name: prio_db
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: prio_user
+      POSTGRES_PASSWORD: prio_password
+      POSTGRES_DB: prio_db
+    volumes:
+      - prio_pgdata:/var/lib/postgresql/data
+    networks:
+      - homelab_net
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # 2. The Application (Frontend + API)
+  prio-app:
+    container_name: prio_app
+    build: ./frontend
+    restart: always
+    ports:
+      - "3000:3000" # Map to host so you can access via IP or Nginx Proxy Manager
+    environment:
+      - DATABASE_URL=postgresql://prio_user:prio_password@prio_db:5432/prio_db
+      - N8N_WEBHOOK_URL=http://n8n:5678/webhook/prio-slot-open # Internal Docker DNS to your n8n
+    depends_on:
+      - prio-db
+    networks:
+      - homelab_net
+
+volumes:
+  prio_pgdata:
+
+networks:
+  homelab_net:
+    external: true
