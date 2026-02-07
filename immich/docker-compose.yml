@@ -1,3 +1,4 @@
+# immich-compose.yml
 name: immich
 
 services:
@@ -5,7 +6,7 @@ services:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     volumes:
-      - ${UPLOAD_LOCATION}:/data
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload # Changed target path (more standard Immich setup)
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
@@ -13,12 +14,14 @@ services:
       - redis
       - database
     restart: always
-    # LIMITS START HERE
+    networks:
+      - homelab_net # FOR NPM ACCESS
+      - immich_backend # FOR DATABASE/REDIS ACCESS
     deploy:
       resources:
         limits:
-          cpus: '2.0' # Max 2 cores
-          memory: 2048M # Max 2GB RAM
+          cpus: '2.0'
+          memory: 2048M
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -28,12 +31,13 @@ services:
     env_file:
       - .env
     restart: always
-    # ML is the heaviest. We cap it strictly.
+    networks:
+      - immich_backend # ONLY needs backend access
     deploy:
       resources:
         limits:
-          cpus: '1.0' # Max 1 core to prevent overheating
-          memory: 1536M 
+          cpus: '1.0'
+          memory: 1536M
 
   redis:
     container_name: immich_redis
@@ -41,18 +45,12 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
+    networks:
+      - immich_backend # ISOLATED
     deploy:
       resources:
         limits:
           memory: 256M
-
-
-## Keeps machine learning usage at quite hours : 
-# crontab -e
-## Stop ML at 8 AM
-# 0 8 * * * docker stop immich_machine_learning
-## Start ML at 2 AM
-#0 2 * * * docker start immich_machine_learning
 
   database:
     container_name: immich_postgres
@@ -65,6 +63,8 @@ services:
     volumes:
       - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
     restart: always
+    networks:
+      - immich_backend # ISOLATED
     deploy:
       resources:
         limits:
@@ -74,6 +74,8 @@ volumes:
   model-cache:
 
 networks:
-  default:
-    name: homelab_net
+  homelab_net:
     external: true
+  immich_backend: # NEW ISOLATED NETWORK
+    driver: bridge 
+    internal: true # Optional: Prevents communication outside the host

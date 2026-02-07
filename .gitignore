@@ -22,3 +22,18 @@ nginx-proxy-manager/letsencrypt/
 *.log
 *.sqlite
 .DS_Store
+
+# --- OPENCLAW ---
+# Critical config (Tokens, DBs) - NEVER COMMIT
+openclaw/openclaw-config/
+
+# Workspace files (Agent's scratchpad) - Optional to commit, but usually noisy
+openclaw/openclaw-workspace/
+
+# Ignore the hidden git repo INSIDE the workspace (the agent initializes its own git)
+openclaw/openclaw-workspace/.git/
+
+# Ignore build artifacts if you ever rebuild
+openclaw/build/
+openclaw/dist/
+openclaw/node_modules/

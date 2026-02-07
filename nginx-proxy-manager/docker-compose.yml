@@ -6,7 +6,7 @@ services:
     ports:
       - '80:80'      # HTTP traffic
       - '443:443'    # HTTPS traffic
-      - '81:81'      # Admin Interface (REQUIRED for setup)
+      - '127.0.0.1:81:81' # Admin Interface is now ONLY accessible from the host machine itself
     environment:
       DISABLE_IPV6: 'true'
     volumes:

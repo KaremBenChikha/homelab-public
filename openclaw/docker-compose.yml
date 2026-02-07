@@ -1,0 +1,50 @@
+services:
+  openclaw-gateway:
+    image: openclaw:local
+    container_name: openclaw
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+      GOOGLE_GENERATIVE_AI_API_KEY: ${GOOGLE_API_KEY}
+      CLAUDE_AI_SESSION_KEY: ${CLAUDE_AI_SESSION_KEY:-}
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      OPENCLAW_GATEWAY_TRUSTED_PROXIES: "0.0.0.0/0"
+    volumes:
+      - ./openclaw-workspace:/home/node/.openclaw/workspace
+      - ./openclaw-config:/home/node/.openclaw
+    ports:
+      - "18789:18789"
+    networks:
+      - homelab_net
+    init: true
+    restart: unless-stopped
+    user: "1000:1000"
+    command:
+      - node
+      - dist/index.js
+      - gateway
+      - --bind
+      - lan             # FIX: Must be 'lan' (not 0.0.0.0) to pass validation
+      - --port
+      - "18789"
+      - --allow-unconfigured  
+      
+# after first installation, you should comment 
+#  openclaw-cli:
+#    image: openclaw:local
+#    container_name: openclaw-cli
+#    environment:
+#      HOME: /home/node
+#      TERM: xterm-256color
+#      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+#    volumes:
+#      - ./openclaw-config:/home/node/.openclaw
+#      - ./openclaw-workspace:/home/node/.openclaw/workspace
+#    networks:
+#      - homelab_net
+#    user: "1000:1000"
+#    entrypoint: ["node", "dist/index.js"]
+
+networks:
+  homelab_net:
+    external: true
