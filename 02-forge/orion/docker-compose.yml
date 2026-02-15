@@ -1,0 +1,69 @@
+services:
+  orion-gateway:
+    image: openclaw:local
+    container_name: orion
+    hostname: orion-ai-engineer
+    runtime: sysbox-runc
+    
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+      GOOGLE_GENERATIVE_AI_API_KEY: ${GOOGLE_API_KEY}
+      CLAUDE_AI_SESSION_KEY: ${CLAUDE_AI_SESSION_KEY:-}
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      OPENCLAW_GATEWAY_TRUSTED_PROXIES: "0.0.0.0/0"
+      DOCKER_HOST: unix:///var/run/docker.sock
+      
+    volumes:
+      # Orion's persistent config
+      - ./orion-config:/home/node/.openclaw:rw
+      
+      # Docker cache
+      - ./orion-docker-cache:/var/lib/docker:rw
+      
+      # Ironbird workspace
+      - ../../03-ironbird:/workspace:rw
+      
+      # Production (read-only)
+      - ../../04-production:/production:ro
+      
+      # Core services (read-only)
+      - ../../00-core:/core:ro
+    
+    networks:
+      - proxy_net
+      
+    deploy:
+      resources:
+        limits:
+          cpus: '3.0'
+          memory: 4G
+        reservations:
+          cpus: '1.5'
+          memory: 2G
+    
+    init: true
+    restart: unless-stopped
+    user: "1000:1000"
+    
+    security_opt:
+      - no-new-privileges:true
+    
+    labels:
+      - "role=ai-engineer"
+      - "managed-by=orion"
+      - "workspace=ironbird"
+    
+    command:
+      - node
+      - dist/index.js
+      - gateway
+      - --bind
+      - lan
+      - --port
+      - "18789"
+      - --allow-unconfigured
+
+networks:
+  proxy_net:
+    external: true

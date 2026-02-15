@@ -11,10 +11,9 @@ services:
       - "8334:8334"
     volumes:
       - filestash_config:/app/data/state
-
       - ${STORAGE_ROOT}:/mnt/data
     networks:
-      - homelab_net
+      - proxy_net 
     deploy:
       resources:
         limits:
@@ -24,5 +23,19 @@ volumes:
   filestash_config:
 
 networks:
-  homelab_net:
+  proxy_net:
     external: true
+
+
+# This .env file is used to set environment variables for the Filestash container.
+
+# --- FILESTASH CONFIGURATION ---
+# Where the files actually live on your Host
+#STORAGE_ROOT=/mnt/Sandisk_SSD_1TB/filestash
+
+# User permissions (Matches your user 'karem')
+#PUID=1000
+#PGID=1000
+
+# Timezone
+#TZ=America/New_York

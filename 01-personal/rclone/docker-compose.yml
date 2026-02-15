@@ -1,0 +1,27 @@
+services:
+  rclone-sync:
+    container_name: rclone
+    image: rclone/rclone:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./config:/config/rclone
+      - ${RCLONE_BACKUP_PATH}:/data
+    environment:
+      - TZ=${TZ}
+    ports:
+      - "5572:5572" # Rclone Web GUI
+    command: >
+      rcd
+      --rc-web-gui
+      --rc-web-gui-no-open-browser
+      --rc-addr :5572
+      --rc-web-gui-update
+      --rc-no-auth
+    networks:
+      - proxy_net
+
+networks:
+  proxy_net:
+    external: true

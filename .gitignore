@@ -4,36 +4,31 @@
 *.key
 *.pem
 
-# --- HEAVY DATA & DATABASES ---
-# Ignore all 'data' folders in any subdirectory
-**/data/
-
-# Specific Immich Database folder
-immich/postgres/
-immich/model-cache/
-
-# Tailscale State
-tailscale/state/
-
-# Nginx Proxy Manager Certificates
-nginx-proxy-manager/letsencrypt/
-
 # --- LOGS & JUNK ---
 *.log
 *.sqlite
 .DS_Store
 
-# --- OPENCLAW ---
-# Critical config (Tokens, DBs) - NEVER COMMIT
-openclaw/openclaw-config/
+# --- HEAVY DATA & DATABASES ---
+# Ignore all 'data' folders in any subdirectory
+**/data/
 
-# Workspace files (Agent's scratchpad) - Optional to commit, but usually noisy
-openclaw/openclaw-workspace/
+# npm
+/00-core/npm/data
+/00-core/npm/letsencrypt
 
-# Ignore the hidden git repo INSIDE the workspace (the agent initializes its own git)
-openclaw/openclaw-workspace/.git/
+# tailscale
+/00-core/tailscale/state
 
-# Ignore build artifacts if you ever rebuild
-openclaw/build/
-openclaw/dist/
-openclaw/node_modules/
+# immich 
+/01-personal/immich/postgres
+
+# rclone 
+/01-personal/rclone/config
+
+# n8n
+/02-forge/n8n/data
+
+# openclaw
+/02-forge/orion/orion-config/
+/02-forge/orion/orion-docker-cache/

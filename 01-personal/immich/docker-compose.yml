@@ -6,17 +6,19 @@ services:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload # Changed target path (more standard Immich setup)
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    ports:
+      - "2283:2283" 
     depends_on:
       - redis
       - database
-    restart: always
+    restart: unless-stopped
     networks:
-      - homelab_net # FOR NPM ACCESS
-      - immich_backend # FOR DATABASE/REDIS ACCESS
+      - proxy_net   
+      - db_int_net  
     deploy:
       resources:
         limits:
@@ -30,27 +32,29 @@ services:
       - model-cache:/cache
     env_file:
       - .env
-    restart: always
+    restart: unless-stopped
     networks:
-      - immich_backend # ONLY needs backend access
+      - db_int_net 
     deploy:
       resources:
         limits:
           cpus: '1.0'
-          memory: 1536M
+          memory: 1024M 
+    profiles:
+      - ml 
 
   redis:
     container_name: immich_redis
     image: docker.io/valkey/valkey:9
     healthcheck:
       test: redis-cli ping || exit 1
-    restart: always
+    restart: unless-stopped
     networks:
-      - immich_backend # ISOLATED
+      - db_int_net 
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 128M
 
   database:
     container_name: immich_postgres
@@ -62,20 +66,27 @@ services:
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
       - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
-    restart: always
+    restart: unless-stopped
     networks:
-      - immich_backend # ISOLATED
+      - db_int_net 
     deploy:
       resources:
         limits:
-          memory: 1024M
+          memory: 768M
 
 volumes:
   model-cache:
 
 networks:
-  homelab_net:
+  proxy_net:
     external: true
-  immich_backend: # NEW ISOLATED NETWORK
-    driver: bridge 
-    internal: true # Optional: Prevents communication outside the host
+  db_int_net:
+    external: true
+
+
+
+# Start WITHOUT machine learning (saves 1GB+ RAM)
+# docker compose up -d
+
+# Later if you want face recognition:
+# docker compose --profile ml up -d

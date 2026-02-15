@@ -4,17 +4,19 @@ services:
     container_name: npm
     restart: unless-stopped
     ports:
-      - '80:80'      # HTTP traffic
-      - '443:443'    # HTTPS traffic
-      - '127.0.0.1:81:81' # Admin Interface is now ONLY accessible from the host machine itself
+      - '80:80'
+      - '443:443'
+      - '81:81'
+
+
     environment:
       DISABLE_IPV6: 'true'
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     networks:
-      - homelab_net
+      - proxy_net
 
 networks:
-  homelab_net:
+  proxy_net:
     external: true

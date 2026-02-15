@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     user: "1000:1000"
     env_file:
-      - .env # or ../.env depending on your folder structure
+      - .env
     environment:
       - N8N_BASIC_AUTH_ACTIVE=true
       - N8N_BASIC_AUTH_USER=${N8N_USER}
@@ -13,19 +13,19 @@ services:
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
       - NODE_ENV=production
       - GENERIC_TIMEZONE=America/New_York
-      
-      # --- NETWORK CONFIGURATION ---
       - N8N_PORT=5678
-      - N8N_HOST=agent.automate.qzz.io
+      - N8N_HOST=n8n.automate.qzz.io
       - N8N_PROTOCOL=https
-      - WEBHOOK_URL=https://agent.automate.qzz.io/
-      # Only needed if n8n complains about behind proxy
-      - N8N_PROXY_HOPS=1 
-      
+      - WEBHOOK_URL=https://n8n.automate.qzz.io/
+      - N8N_PROXY_HOPS=1
     volumes:
       - ./data:/home/node/.n8n
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     networks:
-      - homelab_net
+      - proxy_net
 
   tunnel:
     image: cloudflare/cloudflared:latest
@@ -35,8 +35,8 @@ services:
     environment:
       - TUNNEL_TOKEN=${N8N_CLOUDFLARE_TUNNEL_TOKEN}
     networks:
-      - homelab_net
+      - proxy_net
 
 networks:
-  homelab_net:
+  proxy_net:
     external: true

@@ -10,8 +10,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data:/data
     networks:
-      - homelab_net
+      - proxy_net
 
 networks:
-  homelab_net:
+  proxy_net:
     external: true
