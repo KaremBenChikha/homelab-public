@@ -1,0 +1,14 @@
+services:
+  stripe-cli:
+    container_name: stripe-cli
+    image: stripe/stripe-cli
+    command: listen --forward-to http://pulse-api:3000/api/webhooks/stripe --api-key ${STRIPE_SECRET_KEY}
+    environment:
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+    networks:
+      - proxy_net
+    restart: unless-stopped
+
+networks:
+  proxy_net:
+    external: true
