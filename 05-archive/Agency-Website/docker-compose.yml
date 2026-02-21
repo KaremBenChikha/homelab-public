@@ -1,0 +1,13 @@
+services:
+  agency-website:
+    build: .
+    container_name: agency-website
+    restart: unless-stopped
+    ports:
+      - "3150:80"
+    networks:
+      - proxy_net
+
+networks:
+  proxy_net:
+    external: true

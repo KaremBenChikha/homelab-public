@@ -55,6 +55,7 @@ services:
       - "workspace=ironbird"
     
     command:
+      # webinterface
       - node
       - dist/index.js
       - gateway
@@ -62,7 +63,11 @@ services:
       - lan
       - --port
       - "18789"
-      - --allow-unconfigured
+
+      # first time for onboarding, then switch to webinterface
+      #- node
+      #- dist/index.js
+      #- onboard
 
 networks:
   proxy_net:

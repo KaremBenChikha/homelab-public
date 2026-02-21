@@ -1,0 +1,10 @@
+<svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="75" cy="75" r="70" fill="#ef4444"/>
+  <path d="M75 35L90 60L115 75L90 90L75 115L60 90L35 75L60 60L75 35Z" fill="#0a0a0a"/>
+  <path id="curve" d="M 25, 75 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" fill="none" />
+  <text width="500">
+    <textPath href="#curve" fill="#ffffff" font-family="Arial" font-weight="bold" font-size="12" letter-spacing="2">
+      BUILD • AUTOMATE • SCALE • 
+    </textPath>
+  </text>
+</svg>

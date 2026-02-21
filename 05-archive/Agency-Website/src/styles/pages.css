@@ -1,0 +1,135 @@
+/* Page Headers */
+.page-header {
+    padding: 8rem 2rem 4rem;
+    text-align: center;
+    background: var(--color-white);
+}
+
+.page-header h1 {
+    font-size: var(--text-h1);
+    margin-bottom: 1rem;
+}
+
+.page-header p {
+    color: var(--color-gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Services Page */
+.services-list {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+}
+
+.service-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.service-item:nth-child(even) {
+    direction: rtl;
+    /* Flip order */
+}
+
+.service-item:nth-child(even) .service-text {
+    direction: ltr;
+    /* Reset text direction */
+}
+
+.service-text h2 {
+    font-size: var(--text-h2);
+    margin-bottom: 1rem;
+    color: var(--color-purple);
+}
+
+.service-deliverables {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-lime);
+}
+
+/* Blog Page */
+.blog-page-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 4rem;
+    padding: 4rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.sidebar {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 12px;
+    height: fit-content;
+}
+
+/* Contact Page */
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+}
+
+.contact-form-section {
+    padding: 8rem 4rem;
+    background: var(--color-cream);
+}
+
+.contact-info-section {
+    padding: 8rem 4rem;
+    background: var(--color-dark);
+    color: white;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.contact-info-item {
+    margin-bottom: 2rem;
+}
+
+.contact-info-item h4 {
+    color: var(--color-lime);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+
+    .service-item,
+    .blog-page-grid,
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info-section {
+        order: -1;
+        /* Show info first on mobile */
+    }
+}
