@@ -1,7 +1,8 @@
+name: forge-orion
 services:
   orion-gateway:
     image: openclaw:local
-    container_name: orion
+    container_name: forge-orion
     hostname: orion-ai-engineer
     runtime: sysbox-runc
     
@@ -43,7 +44,7 @@ services:
           memory: 2G
     
     init: true
-    restart: unless-stopped
+    restart: "no"
     user: "1000:1000"
     
     security_opt:

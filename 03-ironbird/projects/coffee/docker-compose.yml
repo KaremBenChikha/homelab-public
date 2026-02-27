@@ -1,10 +1,9 @@
-version: '3.8'
-
+name: ironbird-coffee
 services:
   web:
     image: nginx:alpine
-    container_name: ${PROJECT_NAME}_web
-    restart: unless-stopped
+    container_name: ironbird-coffee-web
+    restart: "no"
     env_file: ./.env.example
     volumes:
       - ./src:/usr/share/nginx/html

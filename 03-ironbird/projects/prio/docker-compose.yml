@@ -1,9 +1,10 @@
+name: ironbird-prio
 services:
   # 1. The Database
   prio-db:
-    container_name: prio_db
+    container_name: ironbird-prio-db
     image: postgres:15-alpine
-    restart: always
+    restart: "no"
     environment:
       POSTGRES_USER: prio_user
       POSTGRES_PASSWORD: prio_password
@@ -19,9 +20,9 @@ services:
 
   # 2. The Application (Frontend + API)
   prio-app:
-    container_name: prio_app
+    container_name: ironbird-prio-app
     build: ./frontend
-    restart: always
+    restart: "no"
     ports:
       - "3000:3000" # Map to host so you can access via IP or Nginx Proxy Manager
     environment:

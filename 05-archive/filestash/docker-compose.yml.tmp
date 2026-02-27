@@ -1,8 +1,9 @@
+name: archive-filestash
 services:
   app:
-    container_name: filestash
+    container_name: archive-filestash
     image: machines/filestash:latest
-    restart: unless-stopped
+    restart: "no"
     env_file:
       - .env
     environment:
@@ -13,7 +14,7 @@ services:
       - filestash_config:/app/data/state
       - ${STORAGE_ROOT}:/mnt/data
     networks:
-      - proxy_net 
+      - proxy_net
     deploy:
       resources:
         limits:

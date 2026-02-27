@@ -1,8 +1,9 @@
+name: archive-agency-website
 services:
   agency-website:
     build: .
-    container_name: agency-website
-    restart: unless-stopped
+    container_name: archive-agency-website
+    restart: "no"
     ports:
       - "3150:80"
     networks:

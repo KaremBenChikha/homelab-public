@@ -1,8 +1,9 @@
+name: forge-n8n
 services:
   n8n:
     image: n8nio/n8n:latest
-    container_name: n8n
-    restart: unless-stopped
+    container_name: forge-n8n
+    restart: "no"
     user: "1000:1000"
     env_file:
       - .env
@@ -29,8 +30,8 @@ services:
 
   tunnel:
     image: cloudflare/cloudflared:latest
-    container_name: cloudflared_tunnel
-    restart: unless-stopped
+    container_name: forge-tunnel
+    restart: "no"
     command: tunnel --no-autoupdate run
     environment:
       - TUNNEL_TOKEN=${N8N_CLOUDFLARE_TUNNEL_TOKEN}

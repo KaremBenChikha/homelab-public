@@ -1,7 +1,8 @@
+name: core-tailscale
 services:
   tailscale:
     image: tailscale/tailscale:latest
-    container_name: tailscale
+    container_name: core-tailscale
     hostname: elitedesk  # Sets the name inside Tailscale Admin Console
     env_file:
       - .env

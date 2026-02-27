@@ -1,6 +1,7 @@
+name: core-infisical
 services:
   infisical-db:
-    container_name: infisical-db
+    container_name: core-infisical-db
     image: postgres:14-alpine
     restart: unless-stopped
     environment:
@@ -13,7 +14,7 @@ services:
       - proxy_net
 
   infisical-redis:
-    container_name: infisical-redis
+    container_name: core-infisical-redis
     image: redis:alpine
     restart: unless-stopped
     volumes:
@@ -22,7 +23,7 @@ services:
       - proxy_net
 
   infisical:
-    container_name: infisical
+    container_name: core-infisical
     image: infisical/infisical:latest
     restart: unless-stopped
     depends_on:

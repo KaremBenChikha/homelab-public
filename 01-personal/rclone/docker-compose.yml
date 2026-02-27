@@ -1,8 +1,9 @@
+name: personal-rclone
 services:
   rclone-sync:
-    container_name: rclone
+    container_name: personal-rclone
     image: rclone/rclone:latest
-    restart: unless-stopped
+    restart: "no"
     env_file:
       - .env
     volumes:

@@ -1,9 +1,7 @@
-# immich-compose.yml
-name: immich
-
+name: personal-immich
 services:
   immich-server:
-    container_name: immich_server
+    container_name: personal-immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
@@ -15,7 +13,7 @@ services:
     depends_on:
       - redis
       - database
-    restart: unless-stopped
+    restart: "no"
     networks:
       - proxy_net   
       - db_int_net  
@@ -26,13 +24,13 @@ services:
           memory: 2048M
 
   immich-machine-learning:
-    container_name: immich_machine_learning
+    container_name: personal-immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
     volumes:
       - model-cache:/cache
     env_file:
       - .env
-    restart: unless-stopped
+    restart: "no"
     networks:
       - db_int_net 
     deploy:
@@ -44,11 +42,11 @@ services:
       - ml 
 
   redis:
-    container_name: immich_redis
+    container_name: personal-immich_redis
     image: docker.io/valkey/valkey:9
     healthcheck:
       test: redis-cli ping || exit 1
-    restart: unless-stopped
+    restart: "no"
     networks:
       - db_int_net 
     deploy:
@@ -57,7 +55,7 @@ services:
           memory: 128M
 
   database:
-    container_name: immich_postgres
+    container_name: personal-immich_postgres
     image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
     environment:
       POSTGRES_PASSWORD: ${IMMICH_POSTGRES_PASSWORD}
@@ -66,7 +64,7 @@ services:
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
       - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
-    restart: unless-stopped
+    restart: "no"
     networks:
       - db_int_net 
     deploy:
@@ -82,8 +80,6 @@ networks:
     external: true
   db_int_net:
     external: true
-
-
 
 # Start WITHOUT machine learning (saves 1GB+ RAM)
 # docker compose up -d
