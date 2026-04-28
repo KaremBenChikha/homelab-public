@@ -1,0 +1,37 @@
+name: personal-samba
+services:
+  samba-server:
+    container_name: personal-samba_server
+    image: ghcr.io/servercontainers/samba:latest
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      ACCOUNT_karem: ${SMB_PASSWORD}
+      UID_karem: 1000
+      # Changed from personalstorage to Vault
+      SAMBA_VOLUME_CONFIG_Vault: |
+        [Vault]
+        path = /shares/Vault
+        valid users = karem
+        guest ok = no
+        browseable = yes
+        read only = no
+
+    volumes:
+      - ${SMB_STORAGE_LOCATION}:/shares/Vault
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "139:139"
+      - "445:445"
+    networks:
+      - proxy_net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  proxy_net:
+    external: true

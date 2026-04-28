@@ -1,0 +1,42 @@
+name: forge-openclaw
+
+services:
+  openclaw-gateway:
+    build: .
+    container_name: forge-openclaw
+    hostname: forge-openclaw
+    restart: unless-stopped
+    init: true
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL}
+      BRAVE_SEARCH_API_KEY: ${BRAVE_SEARCH_API_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      ALPACA_API_KEY: ${ALPACA_API_KEY}
+      ALPACA_SECRET_KEY: ${ALPACA_SECRET_KEY}
+      ALPACA_BASE_URL: ${ALPACA_BASE_URL}
+      APCA_API_KEY_ID: ${APCA_API_KEY_ID}
+      APCA_API_KEY_SECRET: ${APCA_API_KEY_SECRET}
+      N8N_API_KEY: ${N8N_API_KEY}
+      ETSY_API_KEY: ${ETSY_API_KEY}
+      ETSY_CLIENT_SECRET: ${ETSY_CLIENT_SECRET}
+      NODE_COMPILE_CACHE: /var/tmp/openclaw-compile-cache
+      OPENCLAW_NO_RESPAWN: "1"
+    volumes:
+      - ./config:/home/node/.openclaw
+      - ./.env:/home/node/.openclaw/.env
+      - ./workspace:/home/node/.openclaw/workspace
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - proxy_net
+
+networks:
+  proxy_net:
+    external: true

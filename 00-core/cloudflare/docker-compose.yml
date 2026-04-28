@@ -1,0 +1,14 @@
+name: core-tunnel
+
+services:
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: core-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ***REMOVED***
+    networks:
+      - proxy_net
+
+networks:
+  proxy_net:
+    external: true

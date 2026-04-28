@@ -1,4 +1,5 @@
 name: personal-immich
+
 services:
   immich-server:
     container_name: personal-immich_server
@@ -6,22 +7,17 @@ services:
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "2283:2283"
     env_file:
       - .env
-    ports:
-      - "2283:2283" 
     depends_on:
       - redis
       - database
-    restart: "no"
+    restart: unless-stopped
     networks:
-      - proxy_net   
-      - db_int_net  
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 2048M
+      - proxy_net
+      - db_int_net
 
   immich-machine-learning:
     container_name: personal-immich_machine_learning
@@ -30,29 +26,20 @@ services:
       - model-cache:/cache
     env_file:
       - .env
-    restart: "no"
+    restart: unless-stopped
     networks:
-      - db_int_net 
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1024M 
+      - db_int_net
     profiles:
-      - ml 
+      - ml
 
   redis:
     container_name: personal-immich_redis
     image: docker.io/valkey/valkey:9
     healthcheck:
       test: redis-cli ping || exit 1
-    restart: "no"
+    restart: unless-stopped
     networks:
-      - db_int_net 
-    deploy:
-      resources:
-        limits:
-          memory: 128M
+      - db_int_net
 
   database:
     container_name: personal-immich_postgres
@@ -64,13 +51,9 @@ services:
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
       - ${IMMICH_DB_DATA_LOCATION}:/var/lib/postgresql/data
-    restart: "no"
+    restart: unless-stopped
     networks:
-      - db_int_net 
-    deploy:
-      resources:
-        limits:
-          memory: 768M
+      - db_int_net
 
 volumes:
   model-cache:
@@ -80,6 +63,7 @@ networks:
     external: true
   db_int_net:
     external: true
+
 
 # Start WITHOUT machine learning (saves 1GB+ RAM)
 # docker compose up -d

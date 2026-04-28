@@ -14,12 +14,7 @@ PROJECTS=(
     "01-personal/immich"
     "01-personal/rclone"
     "02-forge/n8n"
-    "02-forge/orion"
-    "04-production/nexus-core/nexus-core-db"
-    "04-production/nexus-core/nexus-landing"
-    "04-production/pulse/pulse-api"
-    "04-production/pulse/pulse-db"
-    "04-production/pulse/pulse-landing"
+    "02-forge/openclaw"
 )
 
 echo "========================================"

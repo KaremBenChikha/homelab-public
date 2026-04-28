@@ -23,12 +23,11 @@
 # immich 
 /01-personal/immich/postgres
 
-# rclone 
-/01-personal/rclone/config
-
 # n8n
 /02-forge/n8n/data
 
 # openclaw
-/02-forge/orion/orion-config/
-/02-forge/orion/orion-docker-cache/
+/02-forge/openclaw/config/
+/02-forge/openclaw/workspace/
+
+.ecc
