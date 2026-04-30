@@ -1,7 +1,7 @@
-name: core-portainer
+name: infra-docker
 services:
   portainer:
-    container_name: core-portainer
+    container_name: infra-docker
     image: portainer/portainer-ce:lts
     restart: unless-stopped
     security_opt:
@@ -11,8 +11,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data:/data
     networks:
-      - proxy_net
+      - web-network
 
 networks:
-  proxy_net:
+  web-network:
     external: true

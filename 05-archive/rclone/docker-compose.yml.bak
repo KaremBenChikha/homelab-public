@@ -1,7 +1,7 @@
-name: personal-rclone
+name: apps-sync
 services:
   rclone-sync:
-    container_name: personal-rclone
+    container_name: apps-sync
     image: rclone/rclone:latest
     restart: "no"
     env_file:
@@ -21,8 +21,8 @@ services:
       --rc-web-gui-update
       --rc-no-auth
     networks:
-      - proxy_net
+      - web-network
 
 networks:
-  proxy_net:
+  web-network:
     external: true

@@ -1,7 +1,7 @@
 # 🌌 Orion - AI Software Engineer
 
 **Status:** 🟢 Operational  
-**URL:** https://orion.automate.qzz.io  
+**URL:** https://orion.home.example.com  
 **Mode:** Code Generation (Secure, No Docker-in-Docker)  
 **Role:** AI-powered SaaS development agent for homelab  
 
@@ -39,7 +39,7 @@ docker compose restart
 
 ### 🔐 Authentication & Device Pairing
 First-Time Browser Setup
-	1.	Access Orion: Open https://orion.automate.qzz.io
+	1.	Access Orion: Open https://orion.home.example.com
 	2.	Enter Token: Use  OPENCLAW_GATEWAY_TOKEN  from  .env  file
 	3.	If “Device pairing required”:
 
@@ -114,7 +114,7 @@ Why This Architecture is Better
 	•	Maintainable: Standard Docker workflow
 📈 Development Workflow
 Step 1: Give Orion a Task
-Access https://orion.automate.qzz.io and describe your project:
+Access https://orion.home.example.com and describe your project:
 
 
 ### Step 2: Orion Generates Code
@@ -164,7 +164,7 @@ cd ~/homelab/04-production/service-name/
 # Deploy
 docker compose up -d
 
-# Configure NPM subdomain: service-name.automate.qzz.io → service-name:PORT
+# Configure NPM subdomain: service-name.home.example.com → service-name:PORT
 
 
 ### 🔧 Troubleshooting
@@ -194,7 +194,7 @@ Fix:
 ls -la ~/homelab/03-ironbird/
 
 # Fix permissions
-sudo chown -R 1000:1000 ~/homelab/03-ironbird/
+sudo chown -R 1001:1001 ~/homelab/03-ironbird/
 
 # Verify inside container
 docker exec -it orion ls -la /workspace/
@@ -228,7 +228,7 @@ deploy:
 
 🔒 Security
 	•	User: Runs as  node  (UID 1000) - cannot access host as root
-	•	Networks: Connected to  proxy_net  only
+	•	Networks: Connected to  web-network  only
 	•	Mounts: Limited to  /workspace/  (read-write),  /production/  (read-only)
 	•	Firewall: No direct ports exposed (access via NPM only)
 	•	Secrets: Stored in  orion-config/credentials/  (never commit to git)
@@ -262,9 +262,9 @@ Deploy Service to Production
 ~/homelab/orion-deploy.sh <service-name>
 
 🔗 Related Services
-	•	Nginx Proxy Manager: https://npm.automate.qzz.io
-	•	Portainer: https://portainer.automate.qzz.io
-	•	n8n Automation: https://n8n.automate.qzz.io
+	•	Nginx Proxy Manager: https://npm.home.example.com
+	•	Portainer: https://portainer.home.example.com
+	•	n8n Automation: https://n8n.home.example.com
 📅 System Info
 Last Updated: February 14, 2026
 Version: Orion v1.0 (OpenClaw 2026.2.6)
@@ -274,4 +274,4 @@ Mode: Code Generation
 🌌 Orion is Ready to Build!
 
 Your AI software engineer is operational and ready to generate SaaS projects.
-First Task: Access https://orion.automate.qzz.io and try the “hello-orion” test project!
+First Task: Access https://orion.home.example.com and try the “hello-orion” test project!

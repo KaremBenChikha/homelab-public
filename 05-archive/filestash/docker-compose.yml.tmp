@@ -1,7 +1,7 @@
-name: archive-filestash
+name: archive-files
 services:
   app:
-    container_name: archive-filestash
+    container_name: archive-files
     image: machines/filestash:latest
     restart: "no"
     env_file:
@@ -14,7 +14,7 @@ services:
       - filestash_config:/app/data/state
       - ${STORAGE_ROOT}:/mnt/data
     networks:
-      - proxy_net
+      - web-network
     deploy:
       resources:
         limits:
@@ -24,7 +24,7 @@ volumes:
   filestash_config:
 
 networks:
-  proxy_net:
+  web-network:
     external: true
 
 

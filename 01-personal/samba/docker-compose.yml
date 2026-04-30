@@ -1,7 +1,7 @@
-name: personal-samba
+name: apps-files
 services:
   samba-server:
-    container_name: personal-samba_server
+    container_name: apps-files_server
     image: ghcr.io/servercontainers/samba:latest
     restart: unless-stopped
     security_opt:
@@ -25,7 +25,7 @@ services:
       - "139:139"
       - "445:445"
     networks:
-      - proxy_net
+      - web-network
     deploy:
       resources:
         limits:
@@ -33,5 +33,5 @@ services:
           memory: 512M
 
 networks:
-  proxy_net:
+  web-network:
     external: true

@@ -1,16 +1,16 @@
-name: core-tunnel
+name: infra-tunnel
 
 services:
   tunnel:
     image: cloudflare/cloudflared:latest
-    container_name: core-tunnel
+    container_name: infra-tunnel
     restart: unless-stopped
     env_file:
       - .env
     command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN}
     networks:
-      - proxy_net
+      - web-network
 
 networks:
-  proxy_net:
+  web-network:
     external: true

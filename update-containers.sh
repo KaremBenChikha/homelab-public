@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define your base directory
-BASE_DIR="/home/karem/homelab"
+BASE_DIR="/home/user/homelab"
 
 # ---------------------------------------------------------
 # LIST OF ACTIVE PROJECTS
@@ -61,4 +61,4 @@ echo "========================================"
 # crontab -e
 # (If it asks you to choose an editor, press 1 for nano).
 #Use your arrow keys to go to the very bottom of the file, and paste this line:
-# 0 3 * * 0 /home/karem/homelab/update-containers.sh >> /home/karem/homelab/update.log 2>&1
+# 0 3 * * 0 /home/user/homelab/update-containers.sh >> /home/user/homelab/update.log 2>&1

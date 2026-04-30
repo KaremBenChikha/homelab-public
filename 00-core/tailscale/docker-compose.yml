@@ -1,9 +1,9 @@
-name: core-tailscale
+name: infra-vpn
 services:
   tailscale:
     image: tailscale/tailscale:latest
-    container_name: core-tailscale
-    hostname: elitedesk  # Sets the name inside Tailscale Admin Console
+    container_name: infra-vpn
+    hostname: server-node  # Sets the name inside Tailscale Admin Console
     env_file:
       - .env
     network_mode: host   # Crucial for Subnet Routing

@@ -1,11 +1,11 @@
-name: forge-n8n
+name: forge-workflow
 
 services:
   n8n:
     image: n8nio/n8n:latest
-    container_name: forge-n8n
+    container_name: forge-workflow
     restart: unless-stopped
-    user: "1000:1000"
+    user: "1001:1001"
     env_file:
       - .env
     environment:
@@ -16,9 +16,9 @@ services:
       - NODE_ENV=production
       - GENERIC_TIMEZONE=America/New_York
       - N8N_PORT=5678
-      - N8N_HOST=n8n.automate.qzz.io
+      - N8N_HOST=n8n.home.example.com
       - N8N_PROTOCOL=https
-      - WEBHOOK_URL=https://n8n.automate.qzz.io/
+      - WEBHOOK_URL=https://n8n.home.example.com/
       - N8N_PROXY_HOPS=1
     volumes:
       - ./data:/home/node/.n8n
@@ -27,8 +27,8 @@ services:
     cap_drop:
       - ALL
     networks:
-      - proxy_net
+      - web-network
 
 networks:
-  proxy_net:
+  web-network:
     external: true

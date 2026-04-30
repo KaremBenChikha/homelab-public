@@ -1,10 +1,10 @@
-name: forge-openclaw
+name: forge-ai
 
 services:
   openclaw-gateway:
     build: .
-    container_name: forge-openclaw
-    hostname: forge-openclaw
+    container_name: forge-ai
+    hostname: forge-ai
     restart: unless-stopped
     init: true
     environment:
@@ -35,8 +35,8 @@ services:
     cap_drop:
       - ALL
     networks:
-      - proxy_net
+      - web-network
 
 networks:
-  proxy_net:
+  web-network:
     external: true

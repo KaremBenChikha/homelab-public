@@ -1,8 +1,8 @@
-name: core-npm
+name: infra-proxy
 services:
   npm:
     image: 'jc21/nginx-proxy-manager:latest'
-    container_name: core-npm
+    container_name: infra-proxy
     restart: unless-stopped
     ports:
       - '80:80'
@@ -16,8 +16,8 @@ services:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     networks:
-      - proxy_net
+      - web-network
 
 networks:
-  proxy_net:
+  web-network:
     external: true

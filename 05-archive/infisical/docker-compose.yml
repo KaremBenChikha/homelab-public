@@ -1,7 +1,7 @@
-name: core-infisical
+name: infra-secrets
 services:
   infisical-db:
-    container_name: core-infisical-db
+    container_name: infra-secrets-db
     image: postgres:14-alpine
     restart: unless-stopped
     environment:
@@ -11,19 +11,19 @@ services:
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     networks:
-      - proxy_net
+      - web-network
 
   infisical-redis:
-    container_name: core-infisical-redis
+    container_name: infra-secrets-redis
     image: redis:alpine
     restart: unless-stopped
     volumes:
       - ./data/redis:/data
     networks:
-      - proxy_net
+      - web-network
 
   infisical:
-    container_name: core-infisical
+    container_name: infra-secrets
     image: infisical/infisical:latest
     restart: unless-stopped
     depends_on:
@@ -36,10 +36,10 @@ services:
       - REDIS_URL=redis://infisical-redis:6379
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
       - AUTH_SECRET=${AUTH_SECRET}
-      - SITE_URL=https://secrets.automate.qzz.io
+      - SITE_URL=https://secrets.home.example.com
     networks:
-      - proxy_net
+      - web-network
 
 networks:
-  proxy_net:
+  web-network:
     external: true
