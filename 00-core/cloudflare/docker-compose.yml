@@ -5,7 +5,9 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: core-tunnel
     restart: unless-stopped
-    command: tunnel --no-autoupdate run --token ***REMOVED***
+    env_file:
+      - .env
+    command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN}
     networks:
       - proxy_net
 
