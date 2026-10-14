@@ -26,8 +26,5 @@
 # n8n
 /02-forge/n8n/data
 
-# openclaw
-/02-forge/openclaw/config/
-/02-forge/openclaw/workspace/
 
 .ecc

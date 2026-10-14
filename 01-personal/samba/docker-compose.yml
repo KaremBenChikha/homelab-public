@@ -7,13 +7,13 @@ services:
     security_opt:
       - no-new-privileges:true
     environment:
-      ACCOUNT_karem: ${SMB_PASSWORD}
-      UID_karem: 1000
+      ACCOUNT_${SMB_USER}: ${SMB_PASSWORD}
+      UID_${SMB_USER}: 1000
       # Changed from personalstorage to Vault
       SAMBA_VOLUME_CONFIG_Vault: |
         [Vault]
         path = /shares/Vault
-        valid users = karem
+        valid users = ${SMB_USER}
         guest ok = no
         browseable = yes
         read only = no

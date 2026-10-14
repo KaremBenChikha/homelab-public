@@ -14,7 +14,6 @@ PROJECTS=(
     "01-personal/immich"
     "01-personal/rclone"
     "02-forge/n8n"
-    "02-forge/openclaw"
 )
 
 echo "========================================"
