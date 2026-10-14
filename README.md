@@ -54,9 +54,9 @@ Docker management UI for the entire host. Provides a web dashboard for managing 
 - **Image:** `tailscale/tailscale:latest`
 - **Network:** `host` mode
 - **Capabilities:** `NET_ADMIN`, `SYS_MODULE`
-- **Features:** subnet router (`192.168.1.0/24`), exit node
+- **Features:** subnet router (`<LAN_SUBNET>`), exit node
 
-Runs in `network_mode: host` to advertise the local LAN subnet and act as an exit node for the Tailscale mesh VPN. Auth key passed via `TS_AUTH_KEY` in `.env`. Routes `192.168.1.0/24` so remote Tailscale clients can reach local devices without port forwarding. Exit node capability routes all internet traffic through the homelab when enabled.
+Runs in `network_mode: host` to advertise the local LAN subnet and act as an exit node for the Tailscale mesh VPN. Auth key passed via `TS_AUTH_KEY` in `.env`. Routes `<LAN_SUBNET>` so remote Tailscale clients can reach local devices without port forwarding. Exit node capability routes all internet traffic through the homelab when enabled.
 
 #### Cloudflare Tunnel (cloudflared)
 - **Image:** `cloudflare/cloudflared:latest`

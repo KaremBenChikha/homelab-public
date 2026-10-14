@@ -27,7 +27,7 @@ services:
       - TS_STATE_DIR=/var/lib/tailscale
       
       # SUBNET ROUTING: Advertise your physical home network
-      - TS_ROUTES=192.168.1.0/24
+      - TS_ROUTES=${LAN_SUBNET}
       
       # Use Kernel networking for better routing performance
       - TS_USERSPACE=false
